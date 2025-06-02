@@ -1,6 +1,7 @@
 from django.urls import path
-from content.views import articles_list
+import content.views as views
 
 urlpatterns = [
-    path("", view=articles_list, name="app_articles_list")
+    path("", view=views.home, name="app_home"),
+    path("article/<int:id>", view=views.article_page, name="app_article")
 ]

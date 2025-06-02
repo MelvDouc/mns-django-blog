@@ -1,0 +1,13 @@
+{% extends "__layout.jinja" %}
+
+{% block title %}Home{% endblock %}
+
+{% block contents %}
+<ul>
+  {% for a in articles %}
+  <li>
+    <a href="{% url 'app_article' id=a.id %}">{{ a.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

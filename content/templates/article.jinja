@@ -1,0 +1,9 @@
+{% extends "__layout.jinja" %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block contents %}
+<h1>{{ article.title }}</h1>
+
+<p>{{ article.content }}</p>
+{% endblock %}
