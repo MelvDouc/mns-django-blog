@@ -1,9 +1,11 @@
-from datetime import datetime, timezone
-from django.shortcuts import render, get_object_or_404
-from content.models import Article
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpRequest, HttpResponseNotAllowed
+
+from content.models import Article, Comment
+from content.forms import CommentForm
 
 
-def home(request):
+def home(request: HttpRequest):
     articles = Article.objects.all()
     # articles = Article.objects.filter(is_published=True, publication_date__lte=datetime.now(
     # timezone.utc)).order_by("-publication_date")
@@ -12,9 +14,25 @@ def home(request):
     })
 
 
-def article_page(request, id: int):
+def article_page(request: HttpRequest, id: int):
     article = get_object_or_404(Article, id=id)
-    print(article.image)
-    return render(request, "article.jinja", {
-        "article": article
-    })
+
+    match request.method:
+        case "GET":
+            comments = article.comments.all().order_by("-created_at")  # type: ignore
+            return render(request, "article.jinja", {
+                "article": article,
+                "form": CommentForm(),
+                "comments": comments
+            })
+        case "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = Comment(
+                    article=article,
+                    content=form.cleaned_data["content"]
+                )
+                comment.save()
+            return redirect("app_article", id=id)
+        case _:
+            return HttpResponseNotAllowed(["GET", "POST"])

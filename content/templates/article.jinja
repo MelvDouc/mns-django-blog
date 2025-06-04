@@ -8,4 +8,22 @@
 <p>{{ article.content }}</p>
 
 <img style="max-width: 500px" src="{{ article.image.url }}" alt="{{ article.title }}">
+
+<h2>Commentaires</h2>
+
+{% if comments %}
+  <ul>
+    {% for c in comments %}
+      <li title="{{ c.created_at }}">{{ c.content }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Pas encore de commentaires.</p>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_div }}
+  <button type="submit">Ajouter</button>
+</form>
 {% endblock %}
