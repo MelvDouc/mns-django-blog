@@ -6,4 +6,6 @@
 <h1>{{ article.title }}</h1>
 
 <p>{{ article.content }}</p>
+
+<img style="max-width: 500px" src="{{ article.image.url }}" alt="{{ article.title }}">
 {% endblock %}

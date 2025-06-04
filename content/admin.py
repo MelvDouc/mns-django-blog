@@ -11,11 +11,14 @@ class ArticleAdmin(admin.ModelAdmin):
     ordering = ("title", "-created_at")  # minus sign: desc
     date_hierarchy = "created_at"
     fieldsets = (
-        ("Auteur & date", {
-            "fields": ("author",)
+        ("Auteur & publication", {
+            "fields": ("author", "is_published", "publication_date")
         }),
         ("Contenu", {
             "fields": ("title", "content")
+        }),
+        ("Médias", {
+            "fields": ("image",)
         })
     )
 

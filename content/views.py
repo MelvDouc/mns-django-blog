@@ -14,6 +14,7 @@ def home(request):
 
 def article_page(request, id: int):
     article = get_object_or_404(Article, id=id)
+    print(article.image)
     return render(request, "article.jinja", {
         "article": article
     })
