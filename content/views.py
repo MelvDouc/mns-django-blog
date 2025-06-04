@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.http import HttpRequest, HttpResponseNotAllowed
+from django.shortcuts import render, redirect, get_object_or_404
 
 from content.models import Article, Comment
 from content.forms import CommentForm
@@ -33,6 +34,7 @@ def article_page(request: HttpRequest, id: int):
                     content=form.cleaned_data["content"]
                 )
                 comment.save()
+            messages.success(request, "The comment was added successfully.")
             return redirect("app_article", id=id)
         case _:
             return HttpResponseNotAllowed(["GET", "POST"])

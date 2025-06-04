@@ -1,0 +1,9 @@
+.message {
+  &[data-tags="success"] {
+    color: green;
+  }
+
+  &[data-tags="error"] {
+    color: red;
+  }
+}
