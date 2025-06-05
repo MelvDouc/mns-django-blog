@@ -10,6 +10,14 @@ class BlogUserLogInForm(AuthenticationForm):
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, label="Adresse email")
     phone = forms.CharField(required=False, max_length=15, label="N° de tél.")
+    address = forms.CharField(
+        label="Adresse",
+        widget=forms.Textarea(attrs={
+            "rows": 1,
+            "placeholder": "2 rue des Pâquerettes...",
+            "required": False
+        })
+    )
 
     class Meta:
         model = User
