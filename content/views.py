@@ -27,10 +27,12 @@ def article_page(request: HttpRequest, id: int):
                 "comments": comments
             })
         case "POST":
+            user = request.user
             form = CommentForm(request.POST)
-            if form.is_valid():
+            if form.is_valid() and user.is_authenticated:
                 comment = Comment(
                     article=article,
+                    author=user,
                     content=form.cleaned_data["content"]
                 )
                 comment.save()

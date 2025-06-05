@@ -7,7 +7,9 @@
 
 <p>{{ article.content }}</p>
 
-<img style="max-width: 500px" src="{{ article.image.url }}" alt="{{ article.title }}">
+{% if article.image %}
+  <img style="max-width: 500px" src="{{ article.image.url }}" alt="{{ article.title }}" />
+{% endif %}
 
 <h2>Commentaires</h2>
 
@@ -21,9 +23,11 @@
   <p>Pas encore de commentaires.</p>
 {% endif %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_div }}
-  <button type="submit">Ajouter</button>
-</form>
+{% if user.is_authenticated %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit">Ajouter</button>
+  </form>
+{% endif %}
 {% endblock %}

@@ -5,12 +5,30 @@
 
 <head>
   <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="{% static 'favicon.png' %}" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   <title>{% block title %}{% endblock %} | Blog Django</title>
 </head>
 
 <body>
+  <header>
+    <nav>
+      <ul>
+        {% if user.is_authenticated %}
+          <li>
+            <form action="{% url "app_logout" %}" method="POST">
+              {% csrf_token %}
+              <button type="submit">Se déconnecter</button>
+            </form>
+          </li>
+        {% else %}
+          <li><a href="{% url 'app_login' %}">Se connecter</a> / <a href="{% url 'app_register' %}">Créer un compte</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
   <main>
     {% if messages %}
       <ul>

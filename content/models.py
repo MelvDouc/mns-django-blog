@@ -17,8 +17,8 @@ class Article(models.Model):
         User,
         on_delete=models.SET_NULL,
         related_name="articles",
-        null=True,
-        blank=True
+        null=True,  # nullable in db
+        blank=True  # allow empty value in forms
     )
     is_published = models.BooleanField(default=True, verbose_name="publié")
     publication_date = models.DateTimeField(
@@ -47,6 +47,13 @@ class Comment(models.Model):
         Article,
         on_delete=models.CASCADE,
         related_name="comments"
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name="comments",
+        null=True,
+        blank=True
     )
     created_at = models.DateTimeField(
         auto_now_add=True,

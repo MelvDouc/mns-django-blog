@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.message {
+  &[data-tags="success"] {
+    color: green;
+  }
+
+  &[data-tags="error"] {
+    color: red;
+  }
+
+  &[data-tags="info"] {
+    background-color: yellow;
+  }
+}
