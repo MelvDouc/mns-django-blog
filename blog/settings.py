@@ -15,7 +15,7 @@ from os.path import join as path_join
 from pathlib import Path
 from dotenv import load_dotenv  # See also: python-decouple
 
-load_dotenv(dotenv_path=".env.dev")
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

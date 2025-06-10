@@ -1,10 +1,14 @@
-.PHONY: dev freeze-deps install gen-migrations migrate
+.PHONY: run-dev run-prod freeze-deps install gen-migrations migrate docker-build docker-run docker
 
 DEPS_FILE = requirements.txt
-DEV_PORT = 5173
+PORT = 5173
+CONTAINER_NAME = blog_django
 
-dev:
-	python3 manage.py runserver $(DEV_PORT)
+run-dev:
+	python3 manage.py runserver 0.0.0.0:$(PORT)
+
+run:
+	gunicorn blog.wsgi:application --bind 0.0.0.0:$(PORT)
 
 freeze-deps:
 	python3 -m pip freeze > $(DEPS_FILE)
@@ -17,3 +21,12 @@ gen-migrations:
 
 migrate:
 	python3 manage.py migrate
+
+docker-build:
+	docker build --tag $(CONTAINER_NAME) .
+
+docker-run:
+	docker run -p $(PORT):$(PORT) $(CONTAINER_NAME)
+
+docker:
+	docker compose up
