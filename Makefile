@@ -1,4 +1,4 @@
-.PHONY: run-dev run-prod freeze-deps install gen-migrations migrate docker-build docker-run docker
+.PHONY: run-dev run freeze-deps install gen-migrations migrate docker-build docker-run docker
 
 DEPS_FILE = requirements.txt
 PORT = 5173
