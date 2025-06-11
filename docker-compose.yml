@@ -1,24 +1,37 @@
 services:
+
   app:
-    env_file: .env
     build: .
-    container_name: blog_django
-    ports:
-      - "5173:5173"
+    env_file: .env.prod
+    volumes:
+      - app_media:/var/www/media
+      - app_static:/app/static
+
   database:
     image: postgres:latest
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_HOST: ${DB_HOST}
     ports:
       - "5432:5432"
+    volumes:
+      - database_data:/var/lib/postgresql/data
+
   webserver:
     image: nginx:latest
     volumes:
       - ./.config/nginx.conf:/etc/nginx/nginx.conf
-      - ./static:/usr/share/nginx/html/static
+      - app_media:/var/www/media
+      - app_static:/var/www/static
     ports:
-      - "5174:80"
+      - "8080:8081"
     depends_on:
       - app
+
+volumes:
+  app_media:
+  app_static:
+  database_data:

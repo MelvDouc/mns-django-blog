@@ -1,1 +1,9 @@
+/.git
+/.venv
 /media
+
+.env
+.env.*
+.gitignore
+
+*.sqlite3

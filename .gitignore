@@ -292,5 +292,7 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,linux,virtualenv
 
+/tmp
 .vscode/settings.json
 .vscode/*.code-snippets
+*.tar

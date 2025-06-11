@@ -3,9 +3,6 @@
 # Pull the latest Python 3 image, slim version.
 FROM python:3-slim
 
-# Install `make`.
-RUN apt update && apt install build-essential -y
-
 # Create non-admin user.
 RUN useradd -m app_user
 
@@ -18,18 +15,23 @@ COPY requirements.txt .
 
 # Install dependencies. Caching is unnecessary.
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir gunicorn
+RUN pip install --no-cache-dir gunicorn psycopg2-binary
 
 # Copy all other files, except for those specified in `.dockerignore`.
 COPY . .
 
-# Make app_user owner of working dir.
+# Create directories for static files.
+RUN mkdir -p /app/static
+RUN mkdir -p /var/www/media
+
+# Give app_user ownership of relevant directories.
 RUN chown -R app_user /app
+RUN chown -R app_user:app_user /var/www/media
 
 USER app_user
 
 # "Describe which ports your application is listening on."
-EXPOSE 5173
+EXPOSE 8000
 
 # Start Python app in container.
-CMD [ "make", "run" ]
+CMD [ "gunicorn", "blog.wsgi:application", "--bind", "0.0.0.0:8000" ]

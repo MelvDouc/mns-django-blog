@@ -1,8 +1,8 @@
-.PHONY: run-dev run freeze-deps install gen-migrations migrate docker-build docker-run docker
+.PHONY: run-dev run freeze-deps install gen-migrations migrate docker-build docker-run docker-save docker-compose
 
 DEPS_FILE = requirements.txt
-PORT = 5173
-CONTAINER_NAME = blog_django
+PORT = 8000
+TAG = blog_django
 
 run-dev:
 	python3 manage.py runserver 0.0.0.0:$(PORT)
@@ -23,10 +23,13 @@ migrate:
 	python3 manage.py migrate
 
 docker-build:
-	docker build --tag $(CONTAINER_NAME) .
+	docker build --tag $(TAG) .
 
 docker-run:
-	docker run -p $(PORT):$(PORT) $(CONTAINER_NAME)
+	docker run -p $(PORT):$(PORT) $(TAG)
 
-docker:
-	docker compose up
+docker-save:
+	docker save $(TAG) > project.rar
+
+docker-compose:
+	docker compose up --build
